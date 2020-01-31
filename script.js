@@ -9,21 +9,32 @@ console.log('Add validation!');
 //     }
 // }
 
-let fields = document.querySelectorAll(".field")
+let inputFields = document.querySelectorAll(".input-field")
+
+let isRequired = " is required"
+// let fields = document.querySelectorAll(".field")
 
 let el = document.querySelector("form")
 el.addEventListener("submit", function(event) {
     event.preventDefault();
-    for (let field of fields) {
-        if (field.value === "" ) {
-            console.log("empty")
-            field.parentElement.classList.add("input-invalid")
+    for (let field of inputFields) {
+        if (field.querySelector("input").value == "") { 
+            if (field.classList.contains("input-invalid")) {
+                console.log("do nothing")
+            } else {
+                console.log("empty")
+                field.classList.add("input-invalid")
+                field.querySelector("label").innerHTML += isRequired
+            }  
         } else { 
             console.log("not empty")
-           field.parentElement.classList.add("input-valid")
-        
+            field.classList.add("input-valid")
+            // if (field.classList.contains("input-invalid")) {
+            //     field.classList.remove("input-invalid")
+            //     field.querySelector("label").innerHTML.replace(" is required", " ")
+            // }
+        }
     }
-}
 })
 
 // let submitButton = document.querySelector("#submit-button");
