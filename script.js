@@ -10,25 +10,56 @@ let daysField = document.querySelector("#days-field")
 let numOfDays = daysField.querySelector("input")
 let cvvField = document.querySelector("#cvv-field")
 let cvvNum = cvvField.querySelector("input")
-
+let startDateField = document.querySelector("#start-date-field")
+let startDate = startDateField.querySelector("input")
 let numbers = /^[0-9]+$/
 
 
 
 form.addEventListener("submit", function(event) {
     event.preventDefault();
+    
     checkCarField ();
+    checkStartDate()
     checkDays ()
     checkCVV()
     checkEmpty();
 })
 
+function checkStartDate () {
+    if (startDate.value !== "") {
+        if (startDateField.classList.contains("bad-data")) {
+            if (moment().isBefore(startDate.value, "day")) {
+                startDateField.classList.add("input-valid")
+                // FIGURE OUT HOW TO REMOVE LABEL STRINGS
+                startDateField.querySelector("label").innerText.replace(isRequired, "")
+                let err = startDateField.lastChild
+                startDateField.removeChild(err)
+                startDateField.classList.remove("bad-data")
+                startDateField.classList.remove("input-invalid")
+            } else if (startDate.value == "") {
+                startDateField.classList.remove("bad-data")
+                startDateField.classList.remove("input-invalid")
+                let err = startDate.lastChild
+                startDateField.removeChild(err)
+            }
+
+        
+        } else if  (moment().isAfter(startDate.value, "day")) {
+            startDateField.classList.add("bad-data")
+            startDateField.classList.remove("input-valid")
+            startDateField.classList.add("input-invalid")
+            let newEl = document.createElement("div")
+            let fieldError = document.createTextNode("*Start date must be in the future")
+            newEl.appendChild(fieldError)
+            startDateField.appendChild(newEl)
+        }
+    }
+}
 
 function checkCVV () {
     if (cvvField.classList.contains("bad-data")) {
-        console.log("don't repeat")
         if ((!isNaN(cvvNum.value) && (cvvNum.value.length == 3))) {
-            console.log("is good")
             cvvField.classList.add("input-valid")
             // FIGURE OUT HOW TO REMOVE LABEL STRINGS
             cvvField.querySelector("label").innerText.replace(isRequired, "")
@@ -45,8 +76,6 @@ function checkCVV () {
 
     
     } else if  ((cvvNum.value !== "") && ((isNaN(cvvNum.value)) || (cvvNum.value.length !== 3))) {
-        console.log(cvvNum.value)
-        console.log("CVV data bad")
         cvvField.classList.add("bad-data")
         cvvField.classList.remove("input-valid")
         cvvField.classList.add("input-invalid")
@@ -138,12 +167,10 @@ function checkCarField () {
     } 
 }
 
-
 function checkEmpty() {
     for (let field of inputFields) {
         
         if (field.querySelector("input").value == "") { 
-            console.log("do nothong")
             if (field.classList.contains("input-invalid")) {
                 
             } else {
@@ -171,6 +198,11 @@ function checkEmpty() {
         }
     }    
 }
+
+
+
+
+
 
 // ADD DIV NODES FOR ERRORS
 
