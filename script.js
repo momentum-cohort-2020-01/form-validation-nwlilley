@@ -8,6 +8,8 @@ let carYear = document.querySelector("#car-year")
 let carField = document.querySelector("#car-field")
 let daysField = document.querySelector("#days-field")
 let numOfDays = daysField.querySelector("input")
+let cvvField = document.querySelector("#cvv-field")
+let cvvNum = cvvField.querySelector("input")
 
 let numbers = /^[0-9]+$/
 
@@ -17,11 +19,43 @@ form.addEventListener("submit", function(event) {
     event.preventDefault();
     checkCarField ();
     checkDays ()
+    checkCVV()
     checkEmpty();
+})
 
+
+function checkCVV () {
+    if (cvvField.classList.contains("bad-data")) {
+        console.log("don't repeat")
+        if ((!isNaN(cvvNum.value) && (cvvNum.value.length == 3))) {
+            console.log("is good")
+            cvvField.classList.add("input-valid")
+            // FIGURE OUT HOW TO REMOVE LABEL STRINGS
+            cvvField.querySelector("label").innerText.replace(isRequired, "")
+            let err = cvvField.lastChild
+            cvvField.removeChild(err)
+            cvvField.classList.remove("bad-data")
+            cvvField.classList.remove("input-invalid")
+        } else if (cvvNum.value == "") {
+            cvvField.classList.remove("bad-data")
+            cvvField.classList.remove("input-invalid")
+            let err = daysField.lastChild
+            cvvField.removeChild(err)
+        }
+
+    
+    } else if  ((cvvNum.value !== "") && ((isNaN(cvvNum.value)) || (cvvNum.value.length !== 3))) {
+        console.log(cvvNum.value)
+        console.log("CVV data bad")
+        cvvField.classList.add("bad-data")
+        cvvField.classList.remove("input-valid")
+        cvvField.classList.add("input-invalid")
+        let newEl = document.createElement("div")
+        let fieldError = document.createTextNode("*Must enter valid 3-digit number")
+        newEl.appendChild(fieldError)
+        cvvField.appendChild(newEl)
+    }
 }
-)
-
 
 function checkDays () {
     if (daysField.classList.contains("bad-data")) {
