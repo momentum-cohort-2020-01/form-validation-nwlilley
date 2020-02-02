@@ -6,6 +6,9 @@ let badCarData = "<br/><em>Car year is not valid</em>"
 let form = document.querySelector("#parking-form")
 let carYear = document.querySelector("#car-year")
 let carField = document.querySelector("#car-field")
+let daysField = document.querySelector("#days-field")
+let numOfDays = daysField.querySelector("input")
+
 let numbers = /^[0-9]+$/
 
 
@@ -13,11 +16,51 @@ let numbers = /^[0-9]+$/
 form.addEventListener("submit", function(event) {
     event.preventDefault();
     checkCarField ();
-    // checkEmpty();
+    checkDays ()
+    checkEmpty();
+
 }
 )
 
-//
+
+function checkDays () {
+    if (daysField.classList.contains("bad-data")) {
+        console.log("don't repeat")
+        if (!isNaN(numOfDays.value) && (numOfDays.value > 0) &&(numOfDays.value <= 30)) {
+            console.log("is good")
+            daysField.classList.add("input-valid")
+            // FIGURE OUT HOW TO REMOVE LABEL STRINGS
+            daysField.querySelector("label").innerText.replace(isRequired, "")
+            let err = daysField.lastChild
+            daysField.removeChild(err)
+            daysField.classList.remove("bad-data")
+            daysField.classList.remove("input-invalid")
+        } else if (numOfDays.value == "") {
+            daysField.classList.remove("bad-data")
+            daysField.classList.remove("input-invalid")
+            let err = daysField.lastChild
+            daysField.removeChild(err)
+        }
+
+    
+    } else if  ((numOfDays.value !== "") && ((isNaN(numOfDays.value)) || (numOfDays.value < 1) || (numOfDays.value > 30))) {
+        console.log(numOfDays.value)
+        console.log("days data bad")
+        daysField.classList.add("bad-data")
+        daysField.classList.remove("input-valid")
+        daysField.classList.add("input-invalid")
+        let newEl = document.createElement("div")
+        let fieldError = document.createTextNode("*Must enter valid number between 1 and 30")
+        newEl.appendChild(fieldError)
+        daysField.appendChild(newEl)
+        // daysField.querySelector("label").innerText += isRequired
+    // } else if ((!isNaN(numOfDays.value) && (numOfDays.value > 0) &&(numOfDays.value <= 30))) {
+
+
+    }
+
+}
+
 function checkCarField () {
     if (carField.classList.contains("bad-data")) {
         if ((carYear.value > 1900) && (carYear.value <= 2020) && (carYear.value.match(numbers))) {
@@ -45,10 +88,10 @@ function checkCarField () {
         let fieldError = document.createTextNode("*Year not valid")
         newEl.appendChild(fieldError)
         carField.appendChild(newEl)
-        //FIGURE OUT HOW TO ADD isRequired IF NOT THERE
-        // if (carField.querySelector("label").contains(isRequired) == false) { 
-        //     carField.querySelector("label").innerText += isRequired
-        // }
+        // FIGURE OUT HOW TO ADD isRequired IF NOT THERE
+        if (carField.querySelector("label").innerText.includes(isRequired) == false) { 
+            carField.querySelector("label").innerText += isRequired
+        }
 
     } else if ((carYear.value > 1900) && (carYear.value <= 2020) && (carYear.value.match(numbers))) { 
         carField.classList.add("input-valid")
@@ -60,15 +103,6 @@ function checkCarField () {
 
     } 
 }
-
-    
-   
-
-
-    
-
-
-
 
 
 function checkEmpty() {
@@ -148,4 +182,4 @@ function checkEmpty() {
 //         carField.querySelector("label").innerHTML.replace(isRequired, "")
 
 //     } 
-// }
+// 
