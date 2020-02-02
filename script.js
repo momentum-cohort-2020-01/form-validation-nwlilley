@@ -6,30 +6,66 @@ let badCarData = "<br/><em>Car year is not valid</em>"
 let form = document.querySelector("#parking-form")
 let carYear = document.querySelector("#car-year")
 let carField = document.querySelector("#car-field")
+let numbers = /^[0-9]+$/
 
 
 
 form.addEventListener("submit", function(event) {
     event.preventDefault();
-    
-    if (carField.classList.contains("bad-data")) {
+    checkCarField ();
+    // checkEmpty();
+}
+)
 
-    } else { 
-        if ((carYear.value <= 1900 ) && (carYear.value !== "")) {
-            console.log("car data bad")
-            carField.querySelector("label").innerHTML += isRequired
-            carField.querySelector("label").innerHTML += badCarData
-            carField.classList.add("bad-data")
-            carField.classList.add("input-invalid")
-        } else if ((carYear.value > 1900)) {
+
+function checkCarField () {
+    if (carField.classList.contains("bad-data")) {
+        if ((carYear.value > 1900) && (carYear.value <= 2020) && (carYear.value.match(numbers))) {
+            carField.classList.add("input-valid")
+            // FIGURE OUT HOW TO REMOVE LABEL STRINGS
+            carField.querySelector("label").innerText.replace(isRequired, "")
+            let err = carField.lastChild
+            carField.removeChild(err)
+            carField.classList.remove("bad-data")
+            carField.classList.remove("input-invalid")
+        } else if (carYear.value == "") {
             carField.classList.remove("bad-data")
         }
-        
-    }
 
+    } else if ((carYear.value <= 1900 ) || (carYear.value !== "") || (carYear.value.match(numbers) == false)) {
+        console.log("car data bad")
+        carField.classList.add("bad-data")
+        carField.classList.remove("input-valid")
+        carField.classList.add("input-invalid")
+        let newEl = document.createElement("div")
+        let fieldError = document.createTextNode("*Year not valid")
+        newEl.appendChild(fieldError)
+        carField.appendChild(newEl)
+        //FIGURE OUT HOW TO ADD isRequired IF NOT THERE
+        // if (carField.querySelector("label").contains(isRequired) == false) { 
+        //     carField.querySelector("label").innerText += isRequired
+        // }
+
+    } else if ((carYear.value > 1900) && (carYear.value <= 2020) && (carYear.value.match(numbers))) { 
+        carField.classList.add("input-valid")
+        carField.querySelector("label").innerHTML.replace(isRequired, "")
+        let err = carField.lastChild
+        carField.removeChild(err)
+
+    } 
+}
+
+    
+   
 
 
     
+
+
+
+
+
+function checkEmpty() {
     for (let field of inputFields) {
         
         if (field.querySelector("input").value == "") { 
@@ -60,7 +96,7 @@ form.addEventListener("submit", function(event) {
         
         }
     }    
-})
+}
 
 // ADD DIV NODES FOR ERRORS
 
@@ -76,3 +112,34 @@ form.addEventListener("submit", function(event) {
 //     carField.classList.add("input-valid")
 
 
+
+
+// function checkCarField () {
+//     if (carField.classList.contains("bad-data")) {
+//         if (carYear.value > 1900) {
+//             carField.classList.add("input-valid")
+//             // FIGURE OUT HOW TO REMOVE LABEL STRINGS
+//             carField.querySelector("label").innerText.replace(isRequired, "")
+            
+//             carField.classList.remove("bad-data")
+//             carField.classList.remove("input-invalid")
+//         } else if (carYear.value == "") {
+//             carField.classList.remove("bad-data")
+//         }
+
+//     } else if ((carYear.value <= 1900 ) && (carYear.value !== "")) {
+//             console.log("car data bad")
+//             carField.classList.add("bad-data")
+//             carField.classList.remove("input-valid")
+//             carField.classList.add("input-invalid")
+//             // let newEl = document.createElement("div")
+//             // let fieldError = document.createTextNode("*required field")
+//             // newEl.appendChild(fieldError)
+//             // carField.appendChild(newEl)
+
+//     } else if ((carYear.value > 1900) && (carYear.value <= 2020)) { 
+//         carField.classList.add("input-valid")
+//         carField.querySelector("label").innerHTML.replace(isRequired, "")
+
+//     } 
+// }
