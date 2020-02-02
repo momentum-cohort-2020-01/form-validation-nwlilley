@@ -17,7 +17,7 @@ form.addEventListener("submit", function(event) {
 }
 )
 
-
+//
 function checkCarField () {
     if (carField.classList.contains("bad-data")) {
         if ((carYear.value > 1900) && (carYear.value <= 2020) && (carYear.value.match(numbers))) {
@@ -30,9 +30,13 @@ function checkCarField () {
             carField.classList.remove("input-invalid")
         } else if (carYear.value == "") {
             carField.classList.remove("bad-data")
+            carField.classList.remove("input-invalid")
+            let err = carField.lastChild
+            carField.removeChild(err)
+
         }
 
-    } else if ((carYear.value <= 1900 ) || (carYear.value !== "") || (carYear.value.match(numbers) == false)) {
+    } else if (( carYear.value !== "") && ((carYear.value <= 1900 ) || ((carYear.value > 2020) || (carYear.value.match(numbers)) == false))) {
         console.log("car data bad")
         carField.classList.add("bad-data")
         carField.classList.remove("input-valid")
@@ -49,8 +53,10 @@ function checkCarField () {
     } else if ((carYear.value > 1900) && (carYear.value <= 2020) && (carYear.value.match(numbers))) { 
         carField.classList.add("input-valid")
         carField.querySelector("label").innerHTML.replace(isRequired, "")
+        if (carField.classList.contains("bad-data")) {
         let err = carField.lastChild
         carField.removeChild(err)
+        }
 
     } 
 }
