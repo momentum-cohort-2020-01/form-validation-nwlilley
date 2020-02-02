@@ -20,10 +20,10 @@ form.addEventListener("submit", function(event) {
     event.preventDefault();
     
     checkCarField ();
-    checkStartDate()
-    checkDays ()
-    checkCVV()
-    checkEmpty();
+    // checkStartDate()
+    // checkDays ()
+    // checkCVV()
+    // checkEmpty();
 })
 
 function checkStartDate () {
@@ -126,7 +126,7 @@ function checkDays () {
 
 function checkCarField () {
     if (carField.classList.contains("bad-data")) {
-        if ((carYear.value > 1900) && (carYear.value <= 2020) && (carYear.value.match(numbers))) {
+        if ((carYear.value > 1900) && (moment().isAfter(carYear.value, "year")) && (carYear.value.match(numbers))) {
             carField.classList.add("input-valid")
             // FIGURE OUT HOW TO REMOVE LABEL STRINGS
             carField.querySelector("label").innerText.replace(isRequired, "")
@@ -142,7 +142,7 @@ function checkCarField () {
 
         }
 
-    } else if (( carYear.value !== "") && ((carYear.value <= 1900 ) || ((carYear.value > 2020) || (carYear.value.match(numbers)) == false))) {
+    } else if (( carYear.value !== "") && ((carYear.value <= 1900 ) || (moment().isBefore(carYear.value, "year") || (carYear.value.match(numbers)) == false))) {
         console.log("car data bad")
         carField.classList.add("bad-data")
         carField.classList.remove("input-valid")
@@ -152,11 +152,11 @@ function checkCarField () {
         newEl.appendChild(fieldError)
         carField.appendChild(newEl)
         // FIGURE OUT HOW TO ADD isRequired IF NOT THERE
-        if (carField.querySelector("label").innerText.includes(isRequired) == false) { 
-            carField.querySelector("label").innerText += isRequired
-        }
+        // if (carField.querySelector("label").innerText.includes(isRequired) == false) { 
+        //     carField.querySelector("label").innerText += isRequired
+        // }
 
-    } else if ((carYear.value > 1900) && (carYear.value <= 2020) && (carYear.value.match(numbers))) { 
+    } else if ((carYear.value > 1900) && (moment().isAfter(carYear.value, "year") && (carYear.value.match(numbers)))) { 
         carField.classList.add("input-valid")
         carField.querySelector("label").innerHTML.replace(isRequired, "")
         if (carField.classList.contains("bad-data")) {
