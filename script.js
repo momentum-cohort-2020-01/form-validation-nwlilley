@@ -1,4 +1,3 @@
-// VALIDATE FORM HAS ENTERED VALUES
 
 let inputFields = document.querySelectorAll(".input-field")
 let isRequired = " info is required"
@@ -20,12 +19,41 @@ form.addEventListener("submit", function(event) {
     event.preventDefault();
     
     checkCarField ();
-    // checkStartDate()
-    // checkDays ()
-    // checkCVV()
-    // checkEmpty();
+    checkStartDate()
+    checkDays ()
+    checkCVV()
+    checkEmpty();
+    calcTotal()
+    postTotal();
 })
 
+function calcTotal () {
+
+}
+
+function postTotal () {
+    console.log("AM I WORKING?")
+    inputFields[inputFields.length - 1].classList.add("input-valid")
+
+    let fieldValidations = []
+
+    for (let field of inputFields) {
+        fieldValidations.push(field.classList.contains("input-valid"))
+    }
+
+    function testField (bool) {
+        return bool
+    }
+    console.log(fieldValidations.every(testField))
+
+    if (fieldValidations.every(testField)) { 
+       let totalField = document.querySelector("#total")
+       totalField.innerText = "TOTAL = "
+    }
+    
+    
+}
+    
 function checkStartDate () {
     if (startDate.value !== "") {
         if (startDateField.classList.contains("bad-data")) {
@@ -169,8 +197,8 @@ function checkCarField () {
 
 function checkEmpty() {
     for (let field of inputFields) {
-        
-        if (field.querySelector("input").value == "") { 
+        console.log(field)
+        if (field.querySelector("input").value === "") { 
             if (field.classList.contains("input-invalid")) {
                 
             } else {
@@ -199,53 +227,3 @@ function checkEmpty() {
     }    
 }
 
-
-
-
-
-
-// ADD DIV NODES FOR ERRORS
-
-
-// if (carYear.value <= 1900) {
-//     console.log("nope")
-//     carField.querySelector("label").innerHTML += yearIsNotValid
-//     carField.classList.add("input-invalid")
-// } else if (carYear.value > 1900) {
-//     carField.querySelector("label").innerHTML  = carField.querySelector("label").innerHTML.replace(yearIsNotValid, "")
-//     carField.querySelector("label").innerHTML  = carField.querySelector("label").innerHTML.replace(isRequired, "")
-//     carField.classList.remove("input-invalid")
-//     carField.classList.add("input-valid")
-
-
-
-
-// function checkCarField () {
-//     if (carField.classList.contains("bad-data")) {
-//         if (carYear.value > 1900) {
-//             carField.classList.add("input-valid")
-//             // FIGURE OUT HOW TO REMOVE LABEL STRINGS
-//             carField.querySelector("label").innerText.replace(isRequired, "")
-            
-//             carField.classList.remove("bad-data")
-//             carField.classList.remove("input-invalid")
-//         } else if (carYear.value == "") {
-//             carField.classList.remove("bad-data")
-//         }
-
-//     } else if ((carYear.value <= 1900 ) && (carYear.value !== "")) {
-//             console.log("car data bad")
-//             carField.classList.add("bad-data")
-//             carField.classList.remove("input-valid")
-//             carField.classList.add("input-invalid")
-//             // let newEl = document.createElement("div")
-//             // let fieldError = document.createTextNode("*required field")
-//             // newEl.appendChild(fieldError)
-//             // carField.appendChild(newEl)
-
-//     } else if ((carYear.value > 1900) && (carYear.value <= 2020)) { 
-//         carField.classList.add("input-valid")
-//         carField.querySelector("label").innerHTML.replace(isRequired, "")
-
-//     } 
-// 
